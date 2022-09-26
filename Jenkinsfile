@@ -12,6 +12,9 @@ node {
 		}
 			junit 'test-reports/results.xml'
 	}
+	stage('Manual Approval'){
+	    input message: 'Lanjutkan ke tahap Deploy?'
+	}
 	withEnv(['VOLUME=$(pwd)/sources:/src','IMAGE=cdrx/pyinstaller-linux:python2']) {
 		stage('Deploy') {
 			dir(path: env.BUILD_ID) { 
@@ -23,4 +26,3 @@ node {
 			sh "docker run --rm -v ${VOLUME} ${IMAGE} 'rm -rf build dist'"
 		}
 	}
-}
